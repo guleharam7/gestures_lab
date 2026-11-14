@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(const GestureLabApp());
@@ -23,9 +24,9 @@ class GestureLabApp extends StatelessWidget {
 class AppState extends ChangeNotifier {
   int counter = 0;
   String lastGesture = 'None yet';
-  bool altColor = false;
   Offset boxOffset = Offset.zero;
   double boxScale = 1.0;
+  Color padColor = Colors.indigo;
 
   void tap() {
     counter++;
@@ -34,13 +35,14 @@ class AppState extends ChangeNotifier {
   }
 
   void doubleTap() {
-    altColor = !altColor;
+    counter += 2;
     lastGesture = 'Double Tap';
     notifyListeners();
   }
 
   void longPress() {
-    counter = 0;
+    List<Color> colors = [Colors.indigo, Colors.red, Colors.purple];
+    padColor = colors[Random().nextInt(colors.length)];
     lastGesture = 'Long Press';
     notifyListeners();
   }
@@ -90,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                     height: 220,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: appState.altColor ? Colors.orange : Colors.indigo,
+                      color: appState.padColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Text(
