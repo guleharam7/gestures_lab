@@ -67,6 +67,17 @@ class AppState extends ChangeNotifier {
     lastGesture = right ? 'Swipe Right' : 'Swipe Left';
     notifyListeners();
   }
+
+  void verticalSwipe(bool up){
+    if (up){
+      boxScale *= 1.2;
+    } else {
+      boxScale /= 1.2;
+    }
+    boxScale = boxScale.clamp(0.5, 3.0);
+    lastGesture = up ? 'Swipe Up' : 'Swipe Down'; 
+    notifyListeners();
+  }
 }
 
 final AppState appState = AppState();
@@ -205,9 +216,9 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
               ),
 
               GestureDetector(
-                onHorizontalDragEnd: (details) {
-                  appState.swipe(
-                    details.primaryVelocity! > 0,
+                onVerticalDragEnd: (details) {
+                  appState.verticalSwipe(
+                    details.primaryVelocity! < 0,
                   );
                 },
 
@@ -217,7 +228,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
                     padding: EdgeInsets.all(20),
 
                     child: Text(
-                      'Swipe Left or Right',
+                      'Swipe Up or Down',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
