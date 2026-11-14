@@ -27,6 +27,7 @@ class AppState extends ChangeNotifier {
   Offset boxOffset = Offset.zero;
   double boxScale = 1.0;
   Color padColor = Colors.indigo;
+  int swipeCount = 0;
 
   void tap() {
     counter++;
@@ -62,7 +63,7 @@ class AppState extends ChangeNotifier {
   }
 
   void swipe(bool right) {
-    counter += right ? 10 : -10;
+    swipeCount++;
     lastGesture = right ? 'Swipe Right' : 'Swipe Left';
     notifyListeners();
   }
@@ -85,7 +86,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Counter: ${appState.counter} | Last: ${appState.lastGesture}',
+                  'Counter: ${appState.counter} | Swipe Count: ${appState.swipeCount} | Last: ${appState.lastGesture}',
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 24),
@@ -155,14 +156,14 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
               const SizedBox(height: 16),
 
               Text(
-                'Counter: ${appState.counter} | Last: ${appState.lastGesture}',
+                'Counter: ${appState.counter} | Swipe Count: ${appState.swipeCount} | Last: ${appState.lastGesture}',
                 style: const TextStyle(fontSize: 18),
               ),
 
               Expanded(
                 child: GestureDetector(
                   onDoubleTap: appState.resetBox,
-                  
+
                   onScaleStart: (details) {
                     _baseScale = appState.boxScale;
                   },
