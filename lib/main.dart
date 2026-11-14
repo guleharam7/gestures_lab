@@ -54,6 +54,13 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetBox() {
+    boxOffset = Offset.zero;
+    boxScale = 1.0;
+    lastGesture = 'Reset Box';
+    notifyListeners();
+  }
+
   void swipe(bool right) {
     counter += right ? 10 : -10;
     lastGesture = right ? 'Swipe Right' : 'Swipe Left';
@@ -154,6 +161,8 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
 
               Expanded(
                 child: GestureDetector(
+                  onDoubleTap: appState.resetBox,
+                  
                   onScaleStart: (details) {
                     _baseScale = appState.boxScale;
                   },
